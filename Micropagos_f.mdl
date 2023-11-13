@@ -1,0 +1,587 @@
+{UTF-8}
+JI que se vuelven JA=
+	JI Frustrados*Jugadores Inactivos
+	~	
+	~		|
+
+Jugadores Activos= INTEG (
+	Tasa de Aparicion de JA-JA que se vuelven JI,
+		0)
+	~	
+	~		|
+
+Jugadores Inactivos= INTEG (
+	Tasa de Aparicion de JI-JI que se vuelven JA,
+		0)
+	~	
+	~		|
+
+Satisfaccion Inactivos= INTEG (
+	Satisfaccion en el Tiempo JI-Insatisfaccion J1,
+		0)
+	~	
+	~		|
+
+Tasa de aparicion de Players=
+	1.6e+06
+	~	
+	~		|
+
+Tasa de Aparicion de JA=
+	(Tasa de aparicion de Players * 0.2) + (JI Frustrados*Jugadores Inactivos)
+	~	
+	~		|
+
+Tasa de Aparicion de JI=
+	(Tasa de aparicion de Players*0.8)+(JA Frustrados*Jugadores Activos)
+	~	
+	~		|
+
+Satisfaccion en el Tiempo JA=
+	5+(IF THEN ELSE(Diferencia de Poder < 0, IF THEN ELSE(Diferencia de Poder<= -25, IF THEN ELSE\
+		(Diferencia de Poder<= -50,IF THEN ELSE(Diferencia de Poder<= -75, IF THEN ELSE(Diferencia de Poder\
+		 <= -100, 20, 15 ), 10 ), 5 ), 0), 0) + IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 < 0, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos <= -25, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 <= -50, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos <= -75, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 <=100, 20, 15 ), 10 ), 5 ), 0), 0))
+	~	
+	~		|
+
+Insatisfaccion J1=
+	(IF THEN ELSE(Diferencia de Poder < 0, IF THEN ELSE(Diferencia de Poder<= -25, IF THEN ELSE\
+		(Diferencia de Poder<= -50, IF THEN ELSE(Diferencia de Poder<= -75, IF THEN ELSE(Diferencia de Poder\
+		 <= -100, 20, 15 ), 10 ), 5 ), 0), 0) + IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 < 0, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos <= -25, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 <= -50, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos <= -75, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 <= 100, 20, 15 ), 10 ), 5 ), 0), 0))
+	~	
+	~		|
+
+Insatisfaccion JA=
+	(IF THEN ELSE(Diferencia de Poder > 0, IF THEN ELSE(Diferencia de Poder >= 25, IF THEN ELSE\
+		(Diferencia de Poder >= 50, IF THEN ELSE(Diferencia de Poder >= 75, IF THEN ELSE(Diferencia de Poder\
+		 >= 100, 20, 15 ), 10 ), 5 ), 0), 0) + IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 > 0, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos >= 25, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 >= 50, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos >= 75, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 >= 100, 20, 15 ), 10 ), 5 ), 0), 0))
+	~	
+	~		|
+
+Ventas de Globales=
+	Dinero Invertido individual*Jugadores Activos
+	~	
+	~		|
+
+Players=
+	Tasa de aparicion de Players
+	~	Players
+	~		|
+
+Satisfaccion Activos= INTEG (
+	Satisfaccion en el Tiempo JA-Insatisfaccion JA,
+		0)
+	~	
+	~		|
+
+Satisfaccion en el Tiempo JI=
+	5 + (IF THEN ELSE(Diferencia de Poder > 0, IF THEN ELSE(Diferencia de Poder >= 25, IF THEN ELSE\
+		(Diferencia de Poder >= 50, IF THEN ELSE(Diferencia de Poder >= 75, IF THEN ELSE(Diferencia de Poder\
+		 >= 100, 20, 15 ), 10 ), 5 ), 0), 0) + IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 > 0, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos >= 25, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 >= 50, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos >= 75, IF THEN ELSE(Diferencia de Tiempo Obtener Objetos\
+		 >= 100, 20, 15 ), 10 ), 5 ), 0), 0))
+	~	
+	~		|
+
+JI Frustrados=
+	IF THEN ELSE( Satisfaccion Inactivos > 0 , 0, 0.03)
+	~	
+	~		|
+
+JA que se vuelven JI=
+	JA Frustrados*Jugadores Activos
+	~	
+	~		|
+
+Cartera del Jugador= INTEG (
+	Ingresos Mensuales-Gastos en el Juego-Gastos Externos,
+		10)
+	~	
+	~		|
+
+Coste Mantenimiento=
+	INTEGER(Jugadores Totales/12000)*800
+	~	usd/Month
+	~		|
+
+Costo de Micropagos=
+	10
+	~	usd
+	~		|
+
+Costo servicios Premium=
+	15
+	~	
+	~		|
+
+Gastos Externos=
+	100
+	~	usd
+	~		|
+
+Numero de Micropagos=
+	IF THEN ELSE(Satisfaccion Activos <= 2, Micropagos , Satisfaccion Activos*0.1)
+	~	
+	~		|
+
+Diferencia de Poder=
+	(Objetos JA-Objetos JI)/(Objetos JI/100)
+	~	
+	~		|
+
+Diferencia de Tiempo Obtener Objetos=
+	(((Dificultad para obtener objetos/Servicios Premium)-(Dificultad para obtener objetos\
+		))*100)/Dificultad para obtener objetos
+	~	
+	~		|
+
+Dificultad para obtener objetos=
+	30
+	~	Hour
+	~		|
+
+Dinero Invertido individual= INTEG (
+	Gastos en el Juego,
+		0)
+	~	
+	~		|
+
+Servicios Premium=
+	2
+	~	
+	~		|
+
+Ganacias de Ventas=
+	Ventas Totales-Costos
+	~	
+	~		|
+
+Gastos en el Juego=
+	Cartera del Jugador-(Costo de Micropagos*Numero de Micropagos)-Costo servicios Premium
+	~	
+	~		|
+
+Jugadores Totales= INTEG (
+	Players,
+		0)
+	~	Players
+	~		|
+
+Tiempo JA=
+	120
+	~	
+	~		|
+
+Ingresos Mensuales=
+	200
+	~	usd
+	~		|
+
+JA Frustrados=
+	IF THEN ELSE(Cartera del Jugador > 0, IF THEN ELSE( Satisfaccion Activos > 0 , 0, 0.03\
+		) , IF THEN ELSE( Satisfaccion Activos > 0 , 0.03, 0.05 ))
+	~	
+	~		|
+
+Micropagos= INTEG (
+	Inclucion de Micropagos,
+		1)
+	~	
+	~		|
+
+Jugar JA=
+	((Tiempo JA * Servicios Premium) / (Dificultad para obtener objetos + (Dificultad para obtener objetos\
+		 * (
+	0.1 * Objetos JA)))) + Numero de Micropagos
+	~	Hour
+	~		|
+
+Jugar JI=
+	((Tiempo JI)/(Dificultad para obtener objetos+(Dificultad para obtener objetos*(0.1*\
+		Objetos JI))))
+	~	Hour
+	~		|
+
+Ventas=
+	Ventas de Globales+0
+	~	
+	~		|
+
+Objetos JA= INTEG (
+	Jugar JA,
+		1)
+	~	
+	~		|
+
+Objetos JI= INTEG (
+	Jugar JI,
+		1)
+	~	
+	~	0
+	|
+
+Tiempo JI=
+	240
+	~	
+	~		|
+
+Ventas Totales= INTEG (
+	Ventas-Ganacias de Ventas,
+		0)
+	~	usd
+	~		|
+
+Calidad de Juegos=
+	5-Enfoque de Micropagos
+	~	
+	~		|
+
+Enfoque de Micropagos= INTEG (
+	Enfonque Desarrolladoras-Inclucion de Micropagos,
+		3)
+	~	
+	~		|
+
+Flujo de Creacion VJ=
+	(0.083*Coste Mantenimiento)/Calidad de Juegos
+	~	usd/Month
+	~		|
+
+Costos= INTEG (
+	Flujo de Creacion VJ,
+		0)
+	~	usd
+	~		|
+
+Diferencia de Frustracion=
+	JA Frustrados-JI Frustrados
+	~	
+	~		|
+
+Ganacias= INTEG (
+	Ganacias de Ventas,
+		0)
+	~	usd
+	~		|
+
+Enfonque Desarrolladoras=
+	Tendencia a Micropagos
+	~	
+	~		|
+
+Inclucion de Micropagos=
+	Enfoque de Micropagos * 30
+	~	
+	~		|
+
+Nivel de Regulacion=
+	0
+	~	
+	~		|
+
+Tendencia a Micropagos=
+	IF THEN ELSE(Nivel de Regulacion + Diferencia de Frustracion <= (Ganacias*0.001)+15,\
+		 0.083 , -0.083 )
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 50
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.0078125
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,70,0
+10,1,Ventas Totales,93,206,40,20,3,3,0,0,0,0,0,0
+10,2,Ganacias,97,56,40,20,3,3,0,0,0,0,0,0
+1,3,5,2,4,0,0,22,0,0,0,-1--1--1,,1|(101,99)|
+1,4,5,1,100,0,0,22,0,0,0,-1--1--1,,1|(101,160)|
+11,5,1004,101,129,8,6,33,3,0,0,4,0,0,0
+10,6,Ganacias de Ventas,149,129,40,19,40,3,0,0,-1,0,0,0
+10,7,Enfoque de Micropagos,354,80,40,20,3,3,0,0,0,0,0,0
+10,8,Micropagos,355,224,40,20,3,3,0,0,0,0,0,0
+1,9,11,8,4,0,0,22,0,0,0,-1--1--1,,1|(354,181)|
+1,10,11,7,100,0,0,22,0,0,0,-1--1--1,,1|(354,123)|
+11,11,684,354,152,8,6,33,3,0,0,4,0,0,0
+10,12,Inclucion de Micropagos,401,152,39,19,40,3,0,0,-1,0,0,0
+10,13,Dinero Invertido individual,372,381,52,20,3,131,0,0,0,0,0,0
+10,14,Objetos JA,323,645,47,19,3,131,0,0,0,0,0,0
+10,15,Satisfaccion Activos,741,601,40,20,3,3,0,0,0,0,0,0
+10,16,Diferencia de Poder,154,684,20,20,2,3,0,0,4,0,0,0
+10,17,Objetos JI,325,718,49,19,3,131,0,0,0,0,0,0
+10,18,Satisfaccion Inactivos,684,-11,40,20,3,3,0,0,0,0,0,0
+10,19,Jugadores Inactivos,86,471,40,20,3,3,0,0,0,0,0,0
+12,20,48,-135,472,10,8,0,3,0,0,-1,0,0,0
+1,21,23,19,4,0,0,22,0,0,0,-1--1--1,,1|(2,468)|
+1,22,23,20,100,0,0,22,0,0,0,-1--1--1,,1|(-89,468)|
+11,23,48,-48,468,6,8,34,3,0,0,1,0,0,0
+10,24,Tasa de Aparicion de JI,-48,495,49,19,40,3,0,0,-1,0,0,0
+10,25,Jugadores Activos,86,340,40,20,3,3,0,0,0,0,0,0
+12,26,48,-140,340,10,8,0,3,0,0,-1,0,0,0
+1,27,29,25,4,0,0,22,0,0,0,-1--1--1,,1|(4,338)|
+1,28,29,26,100,0,0,22,0,0,0,-1--1--1,,1|(-90,338)|
+11,29,48,-45,338,6,8,34,3,0,0,3,0,0,0
+10,30,Tasa de Aparicion de JA,-45,311,59,19,40,3,0,0,-1,0,0,0
+10,31,Costos,-37,93,40,20,3,3,0,0,0,0,0,0
+10,32,Coste Mantenimiento,-85,-19,20,20,2,3,0,0,4,0,0,0
+10,33,Diferencia de Tiempo Obtener Objetos,92,711,20,20,2,3,0,0,2,0,0,0
+10,34,Servicios Premium,594,620,20,20,2,3,0,0,3,0,0,0
+10,35,Calidad de Juegos,-305,47,20,20,2,3,0,0,3,0,0,0
+10,36,Nivel de Regulacion,123,-89,20,20,11,3,0,0,3,0,0,0
+10,37,Dificultad para obtener objetos,449,793,18,18,2,131,0,0,1,0,0,0
+1,38,1,5,1,0,0,0,0,64,0,-1--1--1,,1|(68,177)|
+1,39,7,11,1,0,0,0,0,64,0,-1--1--1,,1|(324,128)|
+10,40,JI Frustrados,544,-14,22,22,2,131,0,0,1,0,0,0
+1,41,18,40,1,0,0,0,0,64,0,-1--1--1,,1|(616,-16)|
+10,42,JI Frustrados,11,419,51,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,43,42,29,1,0,0,0,0,64,0,-1--1--1,,1|(-11,391)|
+10,44,Cartera del Jugador,716,371,40,20,3,3,0,0,0,0,0,0
+12,45,48,715,204,10,8,0,3,0,0,-1,0,0,0
+1,46,48,44,4,0,0,22,0,0,0,-1--1--1,,1|(715,316)|
+1,47,48,45,100,0,0,22,0,0,0,-1--1--1,,1|(715,241)|
+11,48,48,715,276,8,6,33,3,0,0,4,0,0,0
+10,49,Ingresos Mensuales,759,276,36,21,40,131,0,0,-1,0,0,0
+10,50,Costo de Micropagos,585,283,20,20,2,3,0,0,3,0,0,0
+1,51,50,141,1,0,0,0,0,64,0,-1--1--1,,1|(544,323)|
+10,52,JA Frustrados,895,476,20,20,2,3,0,0,4,0,0,0
+1,53,44,52,1,0,0,0,0,64,0,-1--1--1,,1|(812,407)|
+10,54,JA Frustrados,249,423,54,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,55,JA Frustrados,-169,581,54,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,56,55,24,1,0,0,0,0,64,0,-1--1--1,,1|(-94,547)|
+1,57,54,190,1,0,0,0,0,64,0,-1--1--1,,1|(219,377)|
+10,58,Diferencia de Poder,871,90,47,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,59,Diferencia de Frustracion,-262,648,20,20,2,3,0,0,4,0,0,0
+10,60,JA Frustrados,-208,745,54,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,61,JI Frustrados,-255,529,51,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,62,61,59,1,0,0,0,0,64,0,-1--1--1,,1|(-266,569)|
+1,63,60,59,1,0,0,0,0,64,0,-1--1--1,,1|(-254,728)|
+10,64,Diferencia de Frustracion,296,-83,47,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+12,65,48,-248,101,10,8,0,3,0,0,-1,0,0,0
+1,66,68,31,4,0,0,22,0,0,0,-1--1--1,,1|(-114,101)|
+1,67,68,65,100,0,0,22,0,0,0,-1--1--1,,1|(-201,101)|
+11,68,48,-158,101,6,8,34,3,0,0,1,0,0,0
+10,69,Flujo de Creacion VJ,-158,120,41,19,40,3,0,0,-1,0,0,0
+1,70,35,68,1,0,0,0,0,64,0,-1--1--1,,1|(-214,53)|
+1,71,32,68,1,0,0,0,0,64,0,-1--1--1,,1|(-157,55)|
+10,72,Enfoque de Micropagos,-325,146,44,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,73,72,35,1,0,0,0,0,64,0,-1--1--1,,1|(-316,63)|
+1,74,31,5,1,0,0,0,0,64,0,-1--1--1,,1|(60,101)|
+10,75,Tendencia a Micropagos,213,-13,20,20,2,3,0,0,1,0,0,0
+1,76,2,75,1,0,0,0,0,64,0,-1--1--1,,1|(132,-6)|
+1,77,64,75,1,0,0,0,0,64,0,-1--1--1,,1|(263,-45)|
+1,78,36,75,1,0,0,0,0,64,0,-1--1--1,,1|(189,-69)|
+12,79,48,360,-62,10,8,0,3,0,0,-1,0,0,0
+1,80,82,7,4,0,0,22,0,0,0,-1--1--1,,1|(357,34)|
+1,81,82,79,100,0,0,22,0,0,0,-1--1--1,,1|(357,-29)|
+11,82,48,357,2,8,6,33,3,0,0,4,0,0,0
+10,83,Enfonque Desarrolladoras,416,2,51,19,40,3,0,0,-1,0,0,0
+1,84,75,82,1,0,0,0,0,64,0,-1--1--1,,1|(291,-12)|
+10,85,Jugadores Totales,-55,207,40,20,3,3,0,0,0,0,0,0
+12,86,48,-249,209,10,8,0,3,0,0,-1,0,0,0
+1,87,89,85,4,0,0,22,0,0,0,-1--1--1,,1|(-131,211)|
+1,88,89,86,100,0,0,22,0,0,0,-1--1--1,,1|(-209,211)|
+11,89,48,-174,211,6,8,34,3,0,0,1,0,0,0
+10,90,Players,-174,238,55,19,40,3,0,0,-1,0,0,0
+10,91,Jugadores Totales,-226,-77,42,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,92,91,32,1,0,0,0,0,64,0,-1--1--1,,1|(-152,-74)|
+10,93,JI Frustrados,66,572,51,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,94,93,195,1,0,0,0,0,64,0,-1--1--1,,1|(151,542)|
+10,95,Diferencia de Tiempo Obtener Objetos,824,168,73,19,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,96,15,52,0,1,0,0,0,64,0,-1--1--1,,1|(816,538)|
+12,97,48,910,-10,10,8,0,3,0,0,-1,0,0,0
+1,98,100,18,4,0,0,22,0,0,0,-1--1--1,,1|(766,-14)|
+1,99,100,97,100,0,0,22,0,0,0,-1--1--1,,1|(860,-14)|
+11,100,48,815,-14,6,8,34,3,0,0,3,0,0,0
+10,101,Satisfaccion en el Tiempo JI,815,-41,55,19,40,3,0,0,-1,0,0,0
+1,102,95,100,1,0,0,0,0,64,0,-1--1--1,,1|(775,43)|
+1,103,58,100,1,0,0,0,0,64,0,-1--1--1,,1|(847,26)|
+12,104,48,1008,597,10,8,0,3,0,0,-1,0,0,0
+1,105,107,15,4,0,0,22,0,0,0,-1--1--1,,1|(832,597)|
+1,106,107,104,100,0,0,22,0,0,0,-1--1--1,,1|(946,597)|
+11,107,48,889,597,6,8,34,3,0,0,3,0,0,0
+10,108,Satisfaccion en el Tiempo JA,889,570,55,19,40,3,0,0,-1,0,0,0
+12,109,48,528,715,10,8,0,3,0,0,-1,0,0,0
+1,110,112,17,4,0,0,22,0,0,0,-1--1--1,,1|(418,714)|
+1,111,112,109,100,0,0,22,0,0,0,-1--1--1,,1|(496,714)|
+11,112,48,468,714,6,8,34,3,0,0,3,0,0,0
+10,113,Jugar JI,468,695,26,11,40,3,0,0,-1,0,0,0
+12,114,48,540,650,10,8,0,3,0,0,-1,0,0,0
+1,115,117,14,4,0,0,22,0,0,0,-1--1--1,,1|(417,649)|
+1,116,117,114,100,0,0,22,0,0,0,-1--1--1,,1|(503,649)|
+11,117,48,470,649,6,8,34,3,0,0,1,0,0,0
+10,118,Jugar JA,470,668,29,11,40,3,0,0,-1,0,0,0
+1,119,37,112,1,0,0,0,0,64,0,-1--1--1,,1|(465,755)|
+10,120,Dificultad para obtener objetos,433,510,55,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,121,120,117,1,0,0,0,0,64,0,-1--1--1,,1|(471,589)|
+1,122,34,117,1,0,0,0,0,64,0,-1--1--1,,1|(519,629)|
+10,123,Dificultad para obtener objetos,-2,622,55,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,124,Servicios Premium,-41,796,34,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,125,124,33,1,0,0,0,0,64,0,-1--1--1,,1|(51,786)|
+1,126,123,33,1,0,0,0,0,64,0,-1--1--1,,1|(68,641)|
+12,127,48,985,365,10,8,0,3,0,0,-1,0,0,0
+1,128,130,127,4,0,0,22,0,0,0,-1--1--1,,1|(922,365)|
+1,129,130,44,100,0,0,22,0,0,0,-1--1--1,,1|(806,365)|
+11,130,48,863,365,6,8,34,3,0,0,1,0,0,0
+10,131,Gastos Externos,863,384,52,11,40,3,0,0,-1,0,0,0
+1,132,14,117,1,0,0,0,0,64,0,-1--1--1,,1|(394,627)|
+1,133,17,112,1,0,0,0,0,64,0,-1--1--1,,1|(404,743)|
+10,134,Tiempo JI,535,785,33,11,8,3,0,0,0,0,0,0
+10,135,Tiempo JA,347,546,36,11,8,3,0,0,0,0,0,0
+1,136,135,117,1,0,0,0,0,64,0,-1--1--1,,1|(423,585)|
+1,137,134,112,1,0,0,0,0,64,0,-1--1--1,,1|(505,740)|
+10,138,Numero de Micropagos,652,471,20,20,2,3,0,0,4,0,0,0
+1,139,141,13,4,0,0,22,0,0,0,-1--1--1,,1|(472,370)|
+1,140,141,44,100,0,0,22,0,0,0,-1--1--1,,1|(604,370)|
+11,141,668,527,370,6,8,34,3,0,0,1,0,0,0
+10,142,Gastos en el Juego,527,389,59,11,40,3,0,0,-1,0,0,0
+1,143,44,141,1,0,0,0,0,64,0,-1--1--1,,1|(656,348)|
+1,144,138,141,1,0,0,0,0,64,0,-1--1--1,,1|(624,421)|
+1,145,25,146,1,0,0,0,0,64,0,-1--1--1,,1|(141,272)|
+10,146,Ventas de Globales,269,278,20,20,2,3,0,0,4,0,0,0
+1,147,13,146,1,0,0,0,0,64,0,-1--1--1,,1|(289,309)|
+1,148,15,138,1,0,0,0,0,64,0,-1--1--1,,1|(660,575)|
+10,149,Costo servicios Premium,454,277,49,19,8,3,0,0,0,0,0,0
+1,150,149,141,1,0,0,0,0,64,0,-1--1--1,,1|(467,327)|
+10,151,Micropagos,474,441,48,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,152,151,138,1,0,0,0,0,64,0,-1--1--1,,1|(598,444)|
+1,153,138,117,1,0,0,0,0,64,0,-1--1--1,,1|(537,565)|
+12,154,48,249,202,10,8,0,3,0,0,-1,0,0,0
+1,155,157,1,4,0,0,22,0,0,0,-1--1--1,,1|(157,202)|
+1,156,157,154,100,0,0,22,0,0,0,-1--1--1,,1|(216,202)|
+11,157,48,186,202,6,8,34,3,0,0,3,0,0,0
+10,158,Ventas,186,183,23,11,40,3,0,0,-1,0,0,0
+1,159,146,157,1,0,0,0,0,64,0,-1--1--1,,1|(209,258)|
+1,160,14,16,1,0,0,0,0,64,0,-1--1--1,,1|(202,636)|
+1,161,17,16,1,0,0,0,0,64,0,-1--1--1,,1|(217,748)|
+10,162,Diferencia de Poder,848,668,47,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,163,Diferencia de Tiempo Obtener Objetos,930,749,73,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,164,162,107,1,0,0,0,0,64,0,-1--1--1,,1|(864,619)|
+1,165,163,107,1,0,0,0,0,64,0,-1--1--1,,1|(947,649)|
+12,166,48,679,177,10,8,0,3,0,0,-1,0,0,0
+1,167,169,166,4,0,0,22,0,0,0,-1--1--1,,1|(679,132)|
+1,168,169,18,100,0,0,22,0,0,0,-1--1--1,,1|(679,46)|
+11,169,48,679,89,8,6,33,3,0,0,2,0,0,0
+10,170,Insatisfaccion J1,628,89,52,11,40,3,0,0,-1,0,0,0
+1,171,95,169,1,0,0,0,0,64,0,-1--1--1,,1|(724,129)|
+1,172,58,169,1,0,0,0,0,64,0,-1--1--1,,1|(728,76)|
+12,173,48,738,750,10,8,0,3,0,0,-1,0,0,0
+1,174,176,173,4,0,0,22,0,0,0,-1--1--1,,1|(738,714)|
+1,175,176,15,100,0,0,22,0,0,0,-1--1--1,,1|(738,648)|
+11,176,48,738,681,8,6,33,3,0,0,2,0,0,0
+10,177,Insatisfaccion JA,677,681,53,11,40,3,0,0,-1,0,0,0
+1,178,162,176,1,0,0,0,0,64,0,-1--1--1,,1|(793,656)|
+1,179,163,176,1,0,0,0,0,64,0,-1--1--1,,1|(823,736)|
+10,180,Tasa de aparicion de Players,-364,382,20,20,2,3,0,0,1,0,0,0
+1,181,180,89,1,0,0,0,0,64,0,-1--1--1,,1|(-314,308)|
+1,182,180,23,1,0,0,0,0,64,0,-1--1--1,,1|(-108,439)|
+1,183,180,29,1,0,0,0,0,64,0,-1--1--1,,1|(-127,310)|
+12,184,0,1274,173,221,197,3,188,0,0,1,0,0,0
+Players
+1,185,19,29,1,0,0,0,0,64,0,-1--1--1,,1|(6,378)|
+1,186,25,23,1,0,0,0,0,64,0,-1--1--1,,1|(-51,419)|
+12,187,48,227,335,10,8,0,3,0,0,-1,0,0,0
+1,188,190,187,4,0,0,22,0,0,0,-1--1--1,,1|(198,335)|
+1,189,190,25,100,0,0,22,0,0,0,-1--1--1,,1|(146,335)|
+11,190,48,172,335,6,8,34,3,0,0,1,0,0,0
+10,191,JA que se vuelven JI,172,362,32,19,40,3,0,0,-1,0,0,0
+12,192,48,242,471,10,8,0,3,0,0,-1,0,0,0
+1,193,195,192,4,0,0,22,0,0,0,-1--1--1,,1|(209,471)|
+1,194,195,19,100,0,0,22,0,0,0,-1--1--1,,1|(150,471)|
+11,195,48,179,471,6,8,34,3,0,0,1,0,0,0
+10,196,JI que se vuelven JA,179,498,35,19,40,3,0,0,-1,0,0,0
+1,197,25,190,1,0,0,0,0,64,0,-1--1--1,,1|(145,322)|
+1,198,19,195,1,0,0,0,0,64,0,-1--1--1,,1|(131,447)|
+12,199,0,1830,418,245,247,3,188,0,0,1,0,0,0
+Sati
+12,200,0,1285,563,228,178,3,188,0,0,1,0,0,0
+Obj
+///---\\\
+:GRAPH Jugadores
+:TITLE Jugadores
+:X-AXIS Time
+:SCALE
+:VAR Jugadores Inactivos
+:SCALE
+:VAR Jugadores Activos
+:SCALE
+:VAR Jugadores Totales
+
+:GRAPH Players
+:TITLE Jugadores
+:X-AXIS Time
+:SCALE
+:VAR Jugadores Activos
+:VAR Jugadores Inactivos
+:VAR Jugadores Totales
+
+:GRAPH Sati
+:TITLE Satisfaccion
+:X-AXIS Time
+:SCALE
+:VAR Satisfaccion Activos
+:SCALE
+:VAR Satisfaccion Inactivos
+
+:GRAPH Obj
+:TITLE Objetos
+:X-AXIS Time
+:SCALE
+:VAR Diferencia de Poder
+:VAR Objetos JA
+:SCALE
+:VAR Objetos JI
+:L<%^E!@
+1:Current.vdf
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:70,0
+27:0,
+34:0,
+4:Time
+5:Diferencia de Poder
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+24:0
+25:50
+26:50
